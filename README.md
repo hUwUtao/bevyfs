@@ -5,8 +5,8 @@ A filesystem that is intended to use with Bevy the game engine, for the best of 
 This filesystem took the idea of squashfs, and actually making it feel like home in Rust!
 
 - [x] Filesystem
-- [ ] Actually embedded
-- [ ] Configurable, and embed into build script please
+- [ ] Actually work (50%)
+- [ ] Configurable, and embed into build script please (50%)
   
 ## actually squashing stuff
 
@@ -16,4 +16,4 @@ This filesystem took the idea of squashfs, and actually making it feel like home
     zstd --train -o target/PAKDICT -r assets -B64 
     ```
 
-- `cargo run` - yea create `target/PAK*`, that might be configurable in the future, and needly (feature.3) too
+- `cargo run --bin bundle` - yea create `target/PAK*`, that might be configurable in the future, and needly (feature.3) too

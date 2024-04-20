@@ -1,6 +1,8 @@
-use std::collections::HashMap;
+use std::{collections::HashMap,
+          path::PathBuf};
 
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize,
+            Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, Clone, Copy, Default)]
 pub enum NodeKind {
@@ -22,5 +24,5 @@ pub struct NodeMetadata {
 pub struct MetadataContainer {
     pub magic: [u8; 16],
     pub paksize: u64,
-    pub table: HashMap<String, NodeMetadata>,
+    pub table: HashMap<PathBuf, NodeMetadata>,
 }

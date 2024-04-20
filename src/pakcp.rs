@@ -1,10 +1,11 @@
-use crc32fast::Hasher;
-use std::fs::File;
-use std::io::Result;
-use std::io::{Read, Write};
-use zstd::stream::Encoder;
+use {crc32fast::Hasher,
+     std::{fs::File,
+           io::{Read,
+                Result,
+                Write}},
+     zstd::stream::Encoder};
 
-struct CringeWriter<W: Write> {
+pub(crate) struct CringeWriter<W: Write> {
     writer: W,
     hashr: Hasher,
 }
@@ -32,6 +33,34 @@ impl<W: Write> Write for CringeWriter<W> {
 
     fn flush(&mut self) -> Result<()> {
         self.writer.flush()
+    }
+}
+
+// ?
+pub(crate) struct CringeReader<W: Read> {
+    reader: W,
+    hashr: Hasher,
+}
+
+impl<W: Read> CringeReader<W> {
+    pub(crate) fn new(writer: W) -> Self {
+        CringeReader {
+            reader: writer,
+            hashr: Hasher::new(),
+        }
+    }
+
+    fn checksum(&self) -> u32 {
+        // ?
+        <crc32fast::Hasher as Clone>::clone(&self.hashr).finalize()
+    }
+}
+
+impl<W: Read> Read for CringeReader<W> {
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
+        let read = self.reader.read(buf)?;
+        self.hashr.update(&buf[..read]);
+        Ok(read)
     }
 }
 
